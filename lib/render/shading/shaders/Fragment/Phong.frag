@@ -1,4 +1,4 @@
-#version 430 core
+#version 330 core
 
 struct Light {
     vec4 color;         // rgb:color + a:intensity
@@ -8,7 +8,7 @@ struct Light {
     float type;
 };
 
-layout(std430, binding = 1) buffer LightBuffer {
+layout(std140) buffer LightBuffer {
     Light lights[];
 };
 
