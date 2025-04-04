@@ -18,19 +18,20 @@ using namespace std;
 
 class Renderer {
 public:
+	GLuint width, height;
 	FrameBuffer* gBuffer;
 	GLFWwindow* window;
-	Mesh* screen;
 	double deltaTime, currentFrameTime, lastFrameTime;
 
+	inline static Mesh* screen;
 	inline static vector<Light*> lights;
 	
 
 public:
-	Renderer (GLFWwindow* window , GLuint width , GLuint height) : window(window) {
+	Renderer (GLFWwindow* window , GLuint width , GLuint height) : 
+		width(width), height(height), window(window) {
 		Shaders::prepare();
 		gBuffer = new FrameBuffer(width, height, 0, {
-			{GL_RGB16F,GL_NEAREST,GL_CLAMP_TO_EDGE},	// Position Buffer 
 			{GL_RGB16F,GL_NEAREST,GL_CLAMP_TO_EDGE},	// Normal Buffer 
 			{GL_RGB8,GL_NEAREST,GL_CLAMP_TO_EDGE},		// Color Buffer 
 			{GL_RGB16F,GL_NEAREST,GL_CLAMP_TO_EDGE},	// Props Buffer 
@@ -43,7 +44,7 @@ public:
 
 
 	void render(Object3D* root, Camera* camera) {
-		camera->upload();
+		camera->updateMatrices();
 
 
 		// Geometery Pass
@@ -58,7 +59,7 @@ public:
 		Shaders::GeometryShader->setInt("aoMap", 5);
 
 		lights.clear();
-		root->render();
+		root->render(Shaders::GeometryShader);
 
 
 
@@ -68,17 +69,24 @@ public:
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		Shaders::LightShader->use();
-		Shaders::LightShader->setInt("gPosition", 0);
-		Shaders::LightShader->setInt("gNormal", 1);
-		Shaders::LightShader->setInt("gAlbedo", 2);
-		Shaders::LightShader->setInt("gProps", 3);
-		Shaders::LightShader->setInt("gDepth", 4);
+		camera->bind();
+		Shaders::LightShader->setVec2("pixelSize",vec2(1.0f / width, 1.0f / height));
+		Shaders::LightShader->setInt("gNormal", 0);
+		Shaders::LightShader->setInt("gAlbedo", 1);
+		Shaders::LightShader->setInt("gProps", 2);
+		Shaders::LightShader->setInt("gDepth", 3);
 
 		for (int i = 0; i < gBuffer->buffers.size() ; ++i) {
 			glActiveTexture(GL_TEXTURE0 + i);
 			glBindTexture(GL_TEXTURE_2D, gBuffer->buffers[i]);
 		}
-		screen->render(mat4(1.0f),false);
+
+		for (int i = 0; i < lights.size(); ++i) {
+			lights[i]->bind(Shaders::LightShader);
+		}
+
+		//screen->render(mat4(1.0f),false);
+
 	}
 
 

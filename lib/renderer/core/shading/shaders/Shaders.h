@@ -21,7 +21,7 @@ public:
     static void compile() {
         Basic = new Shader("lib/renderer/core/shading/shaders/Vertex/Basic.vert", "lib/renderer/core/shading/shaders/Fragment/Basic.frag");
         GeometryShader = new Shader("lib/renderer/core/shading/shaders/Vertex/GeometryPass.vert", "lib/renderer/core/shading/shaders/Fragment/GeometryPass.frag");
-        LightShader = new Shader("lib/renderer/core/shading/shaders/Vertex/PostProcessing.vert", "lib/renderer/core/shading/shaders/Fragment/LightPass.frag");
+        LightShader = new Shader("lib/renderer/core/shading/shaders/Vertex/LightPass.vert", "lib/renderer/core/shading/shaders/Fragment/LightPass.frag");
         NormalVisualizer = new Shader("lib/renderer/core/shading/shaders/Vertex/NormalVisualizer.vert", "lib/renderer/core/shading/shaders/Fragment/Basic.frag", "lib/renderer/core/shading/shaders/Geometry/NormalsGenerator.geom");
         
     }

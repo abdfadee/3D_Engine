@@ -32,16 +32,12 @@ public:
 		ao(ao) {}
 
 
-	void bind() {
-		GLint shaderId;
-		glGetIntegerv(GL_CURRENT_PROGRAM, &shaderId);
-		Shader shader = Shader(shaderId);
-
-		shader.setVec3("color",color);
-		shader.setFloat("roughness",roughness);
-		shader.setFloat("metallic", metallic);
-		shader.setFloat("ambientOcclusion",ao);
-		shader.setFloat("heightScale", heightScale);
+	void bind(Shader *shader) {
+		shader->setVec3("color",color);
+		shader->setFloat("roughness",roughness);
+		shader->setFloat("metallic", metallic);
+		shader->setFloat("ambientOcclusion",ao);
+		shader->setFloat("heightScale", heightScale);
 
 		for (int i = 0; i < 6; ++i) {
 			if (textureMaps[i] != nullptr)

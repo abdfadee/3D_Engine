@@ -140,7 +140,6 @@
     <ClInclude Include="lib\renderer\core\framebuffer\Formats.h" />
     <ClInclude Include="lib\renderer\core\Light.h" />
     <ClInclude Include="lib\renderer\core\light\PointLight.h" />
-    <ClInclude Include="lib\renderer\core\light\LightRender.h" />
     <ClInclude Include="lib\renderer\core\Material.h" />
     <ClInclude Include="lib\renderer\core\view\OrthographicCamera.h" />
     <ClInclude Include="lib\renderer\core\view\PerspectiveCamera.h" />

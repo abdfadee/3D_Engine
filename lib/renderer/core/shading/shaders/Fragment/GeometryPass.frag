@@ -21,11 +21,9 @@ uniform sampler2D normalMap;
 uniform sampler2D displacmentMap;
 uniform sampler2D aoMap;
 
-
-layout (location=0) out vec3 FragPos;
-layout (location=1) out vec3 FragNormal;
-layout (location=2) out vec3 FragColor;
-layout (location=3) out vec3 FragProps;       // roughness + metalic + ambient
+layout (location=0) out vec3 FragNormal;
+layout (location=1) out vec3 FragColor;
+layout (location=2) out vec3 FragProps;       // roughness + metalic + ambient
 
 
 vec2 RaymarchedParallaxMapping(vec2 TexCoords, vec3 viewDir)
@@ -60,8 +58,6 @@ vec2 RaymarchedParallaxMapping(vec2 TexCoords, vec3 viewDir)
 
 
 void main() {
-    FragPos = fs_in.FragPos;
-    
     vec3 viewDir = normalize(viewPos - fs_in.FragPos);
 
     vec2 TexCoords;

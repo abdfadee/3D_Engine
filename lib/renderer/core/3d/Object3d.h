@@ -6,9 +6,11 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <iostream>
+#include "../shading/Shader.h"
 
 using namespace std;
 using namespace glm;
+
 
 class Object3D {
 public:
@@ -97,12 +99,12 @@ public:
         return localMatrix;
     }
 
-    virtual void render(mat4 parentMatrix = mat4(1.0f),bool materialize = true) {
+    virtual void render(Shader* shader, mat4 parentMatrix = mat4(1.0f),bool materialize = true) {
         updateLocalMatrixIfNeeded();
         worldMatrix = parentMatrix * localMatrix;
 
         for (auto* child : children)
-            child->render(worldMatrix);
+            child->render(shader,worldMatrix);
     }
 
 };

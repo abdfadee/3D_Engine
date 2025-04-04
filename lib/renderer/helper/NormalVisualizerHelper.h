@@ -13,7 +13,7 @@ public:
 	NormalVisualizerHelper(Mesh* mesh) : mesh(mesh) {}
 
 	void render(mat4 parentMatrix, bool materialize = true) {
-		Object3D::render(parentMatrix);
+		Object3D::render(NULL,parentMatrix);
 
 		//if (!materialize) return;
 

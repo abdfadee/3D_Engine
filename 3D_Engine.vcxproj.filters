@@ -140,9 +140,6 @@
     <ClInclude Include="lib\renderer\core\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\renderer\core\light\LightRender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\renderer\core\shading\shaders\Fragment\Basic.frag" />

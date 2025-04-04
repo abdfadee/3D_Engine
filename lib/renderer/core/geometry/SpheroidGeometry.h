@@ -5,7 +5,7 @@
 
 class SpheroidGeometry : public Geometry {
 public:
-    SpheroidGeometry(double radiusX, double radiusY, double radiusZ, unsigned int segments, unsigned int rings) {
+    SpheroidGeometry(double radiusX, double radiusY, double radiusZ, unsigned int segments = 72, unsigned int rings = 72) {
         generateSpheroid(radiusX, radiusY, radiusZ, segments, rings);
         generateBuffer();
     }

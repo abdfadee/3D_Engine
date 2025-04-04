@@ -9,6 +9,7 @@
 #include "lib/renderer/core/geometry/BoxGeometry.h"
 #include "lib/renderer/helper/NormalVisualizerHelper.h"
 #include "lib/renderer/core/texture/Texture.h"
+#include "lib/renderer/core/light/PointLight.h"
 
 
 
@@ -22,26 +23,33 @@ int main() {
 
 	Object3D* space = new Object3D{};
 
-	Mesh* r = new Mesh{
+	Mesh* b = new Mesh{
 		new BoxGeometry{1,1,1},
-		new Material{vec3(1.0f,0,0),0.5f,0.0f,0.0f}
+		new Material{vec3(1.0f,0,0),0.5f,0.5f,0.0f}
 	};
-	r->translate(vec3(0,0,-4));
-	space->add(r);
+	space->add(b);
 
 	//NormalVisualizerHelper* helper = new NormalVisualizerHelper{r};
 	//r->add(helper);
 
 
+	PointLight* l = new PointLight(
+		vec3(1.0f),
+		1.0f
+	);
+	space->add(l);
+
+
 	PerspectiveCamera* camera = new PerspectiveCamera{};
 	camera->attachControls();
+	camera->translate(vec3(0,0,5));
 	space->add(camera);
 
 
 	auto animationLoop = [&]() {
 		//space->translate(vec3(0.02,0,0));
 		//space->rotate(vec3(0, 0.1,0));
-		r->rotate(vec3(0, 0.1, 0));
+		b->rotate(vec3(0, 0.1, 0));
 		//camera.rotate(vec3(0, 0.001,0));
 		//space->scale(vec3(1.001));
 		renderer.render(space,camera);

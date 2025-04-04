@@ -67,7 +67,13 @@ public:
 		Controls::addCallback([&](GLFWwindow* window, float delta) {movement(window, delta); });
 	}
 
-	void upload() {
+
+	void bind() {
+		Shaders::LightShader->setVec3("viewPos", vec3(worldMatrix * vec4(positionVector,1.0f)));
+	}
+
+
+	void updateMatrices() {
 		worldMatrix = getWorldMatrix();
 
 		mat3 directionMatrix = transpose(inverse(mat3(worldMatrix)));

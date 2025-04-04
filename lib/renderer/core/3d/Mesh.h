@@ -54,16 +54,14 @@ public:
     }
 
 
-    void render(mat4 parentMatrix = mat4(1.0f), bool materialize = true) {
-        Object3D::render(parentMatrix);
+    void render(Shader* shader , mat4 parentMatrix = mat4(1.0f), bool materialize = true) {
+        Object3D::render(shader,parentMatrix);
 
         if (materialize)
-            material->bind();
+            material->bind(shader);
         
-        GLint currentProgram;
-        glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
-        glUniformMatrix4fv(glGetUniformLocation(currentProgram, "model"), 1, GL_FALSE, &worldMatrix[0][0]);
-        glUniformMatrix3fv(glGetUniformLocation(currentProgram, "normalMatrix"), 1, GL_FALSE, &(transpose(inverse(mat3(worldMatrix))))[0][0]);
+        shader->setMat4("model", worldMatrix);
+        shader->setMat3("normalMatrix", transpose(inverse(mat3(worldMatrix))));
 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, geometry->indices.size(), GL_UNSIGNED_INT, 0);
