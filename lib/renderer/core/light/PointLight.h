@@ -17,6 +17,7 @@ public:
 
 
     void render(Shader* shader, mat4 parentMatrix = mat4(1.0f), bool materialize = true) {
+		worldMatrix = getWorldMatrix();
 		Renderer::lights.push_back(this);
     }
 

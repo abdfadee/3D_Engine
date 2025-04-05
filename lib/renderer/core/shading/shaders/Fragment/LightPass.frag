@@ -69,11 +69,11 @@ void main() {
     vec3 pos = vec3(TexCoords , texture(gDepth , TexCoords).r);
     vec4 clip = inverseProjView * vec4(pos * 2.0 - 1.0 , 1.0);
     pos = clip.xyz / clip.w ;
-
+    
     // Light Distance Check
     vec3 lightDir = light.position-pos;
-    float dist = length(lightDir);
-    float atten = 1.0 - clamp (dist / light.radius , 0.0 , 1.0);
+    float distance = length(lightDir);
+    float atten = 1.0 - clamp (distance / light.radius , 0.0 , 1.0);
     if (atten == 0.0)
         discard;
     
@@ -82,8 +82,8 @@ void main() {
     vec3 N = texture(gNormal, TexCoords).rgb;
     vec3 albedo = texture(gAlbedo, TexCoords).rgb;
     vec3 props = texture(gProps, TexCoords).rgb;
-    float metallic  = props.r;
-    float roughness = props.g;
+    float roughness = props.r;
+    float metallic  = props.g;
     float ao        = props.b;
 
     // calculate reflectance at normal incidence; if dia-electric (like plastic) use F0 
@@ -96,9 +96,8 @@ void main() {
     // calculate per-light radiance
     vec3 L = normalize(lightDir);
     vec3 H = normalize(V + L);
-    float distance = length(lightDir);
     float attenuation = 1.0 / (distance * distance);
-    vec3 radiance = light.color * attenuation;
+    vec3 radiance = light.color * light.intensity * attenuation;
 
     // Cook-Torrance BRDF
     float NDF = DistributionGGX(N, H, roughness);   
@@ -118,7 +117,7 @@ void main() {
     // multiply kD by the inverse metalness such that only non-metals 
     // have diffuse lighting, or a linear blend if partly metal (pure metals
     // have no diffuse light).
-    kD *= 1.0 - metallic;	  
+    kD *= 1.0 - metallic;
 
     // scale light by NdotL
     float NdotL = max(dot(N, L), 0.0);        
@@ -133,9 +132,4 @@ void main() {
     
     FragColor = vec4(color,1.0);
     //FragColor = vec4(texture(gNormal,TexCoords).xyz,1.0);
-
-    /*
-    if (FragColor.w < 0.1)
-        discard;
-    */
 }

@@ -21,11 +21,18 @@ int main() {
 
 	Texture* t = new Texture{"assets/2D/brickwall.jpg"};
 
+	Texture* albedo = new Texture{"assets/PBR/Metal/Metal049A_2K-JPG_Color.jpg" };
+	Texture* normal = new Texture{ "assets/PBR/Metal/Metal049A_2K-JPG_NormalGL.jpg" };
+	Texture* displacment = new Texture{ "assets/PBR/Metal/Metal049A_2K-JPG_Displacement.jpg" };
+	Texture* roughness = new Texture{ "assets/PBR/Metal/Metal049A_2K-JPG_Roughness.jpg" };
+	Texture* metallic = new Texture{ "assets/PBR/Metal/Metal049A_2K-JPG_Metalness.jpg" };
+
 	Object3D* space = new Object3D{};
 
 	Mesh* b = new Mesh{
-		new BoxGeometry{1,1,1},
-		new Material{vec3(1.0f,0,0),0.5f,0.5f,0.0f}
+		new SpheroidGeometry{1,1,1},
+		//new Material{vec3(1.0f,0,0),0.9f,0.9f,0.0f}
+		new Material{albedo,roughness,metallic,normal,displacment}
 	};
 	space->add(b);
 
@@ -35,15 +42,17 @@ int main() {
 
 	PointLight* l = new PointLight(
 		vec3(1.0f),
-		1.0f
+		10.0f,
+		8.0f
 	);
+	l->translate(vec3(2,2,0));
 	space->add(l);
 
 
 	PerspectiveCamera* camera = new PerspectiveCamera{};
 	camera->attachControls();
 	camera->translate(vec3(0,0,5));
-	space->add(camera);
+	//space->add(camera);
 
 
 	auto animationLoop = [&]() {

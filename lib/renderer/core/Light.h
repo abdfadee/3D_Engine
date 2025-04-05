@@ -15,7 +15,8 @@ protected:
 
 public:
 	virtual void bind(Shader *shader) {
-		shader->setVec3("light.position", vec3(worldMatrix * vec4(positionVector, 1.0f)));
+		vec3 position = vec3(worldMatrix * vec4(0.0f, 0.0f, 0.0f, 1.0f));
+		shader->setVec3("light.position", position);
 		shader->setVec3("light.color", color);
 		shader->setFloat("light.intensity",intensity);
 	}

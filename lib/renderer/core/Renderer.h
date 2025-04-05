@@ -51,6 +51,7 @@ public:
 		gBuffer->bind();
 
 		Shaders::GeometryShader->use();
+		camera->bind(Shaders::GeometryShader);
 		Shaders::GeometryShader->setInt("albedoMap", 0);
 		Shaders::GeometryShader->setInt("roughnessMap", 1);
 		Shaders::GeometryShader->setInt("metallicMap", 2);
@@ -69,7 +70,7 @@ public:
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		Shaders::LightShader->use();
-		camera->bind();
+		camera->bind(Shaders::LightShader);
 		Shaders::LightShader->setVec2("pixelSize",vec2(1.0f / width, 1.0f / height));
 		Shaders::LightShader->setInt("gNormal", 0);
 		Shaders::LightShader->setInt("gAlbedo", 1);

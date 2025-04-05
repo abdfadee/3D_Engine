@@ -16,7 +16,7 @@ class Camera : public Object3D {
 public:
 	UBO cameraBuffer;
 	mat4 view, projection;
-	vec3 cameraFront = vec3(0, 0, -1), cameraUp = vec3(0, -1, 0);
+	vec3 cameraFront , cameraUp;
 	double pre_xpos, pre_ypos;
 	float sensetivity;
 
@@ -50,8 +50,8 @@ public:
 		double xoffset = (xpos - pre_xpos) * sensetivity;
 		double yoffset = (ypos - pre_ypos) * sensetivity;
 
-		rotate(vec3(yoffset, 0, 0));
-		rotate(vec3(0,xoffset,0));
+		rotate(vec3(-yoffset, 0, 0));
+		rotate(vec3(0,-xoffset,0));
 
 		if (rotationVector.x > 89.0f)
 			setRotation(vec3(89.0f,rotationVector.y,rotationVector.z));
@@ -68,8 +68,9 @@ public:
 	}
 
 
-	void bind() {
-		Shaders::LightShader->setVec3("viewPos", vec3(worldMatrix * vec4(positionVector,1.0f)));
+	void bind(Shader *shader) {
+		vec3 position = vec3(worldMatrix * vec4(0.0f, 0.0f, 0.0f, 1.0f));
+		shader->setVec3("viewPos",position);
 	}
 
 
@@ -78,10 +79,9 @@ public:
 
 		mat3 directionMatrix = transpose(inverse(mat3(worldMatrix)));
 		cameraFront = normalize(directionMatrix * vec3(0, 0, -1));
-		cameraUp = normalize(directionMatrix * vec3(0, -1, 0));
+		cameraUp = normalize(directionMatrix * vec3(0, 1, 0));
 
-		vec4 p = worldMatrix * vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		vec3 position = vec3(p) / p.w;
+		vec3 position = vec3(worldMatrix * vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 		view = lookAt(position, position + cameraFront, cameraUp);
 
